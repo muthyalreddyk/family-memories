@@ -1,0 +1,75 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UpdateMemoryArgs = 
+ record {
+   category: opt Category;
+   date: text;
+   id: MemoryId;
+   story: opt text;
+   title: text;
+ };
+type Time = int;
+type SortBy = 
+ variant {
+   category;
+   date;
+ };
+type MemoryId = nat;
+type Memory = 
+ record {
+   category: opt Category;
+   contentType: ContentType;
+   date: text;
+   filename: text;
+   id: MemoryId;
+   media: ExternalBlob;
+   story: opt text;
+   title: text;
+   uploadedAt: Time;
+   uploader: principal;
+   uploaderName: text;
+ };
+type ExternalBlob = blob;
+type CreateMemoryArgs = 
+ record {
+   category: opt Category;
+   contentType: ContentType;
+   date: text;
+   filename: text;
+   media: ExternalBlob;
+   story: opt text;
+   title: text;
+ };
+type ContentType = 
+ variant {
+   image;
+   video;
+ };
+type Category = text;
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  createMemory: (args: CreateMemoryArgs) -> (MemoryId);
+  deleteMemory: (id: MemoryId) -> (bool);
+  getMemory: (id: MemoryId) -> (opt Memory) query;
+  listMemories: (sortBy: SortBy) -> (vec Memory) query;
+  updateMemory: (args: UpdateMemoryArgs) -> (bool);
+}

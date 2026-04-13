@@ -1,0 +1,38 @@
+// Version: 1.0.0
+type Category__73893264 = Text;
+type ContentType__394818358 = {#image; #video};
+type ExternalBlob__246066408 = Blob;
+type Int__270357528 = Int__616954475;
+type Int__616954475 = Int;
+type MemoryId__742482266 = Nat;
+type MemoryInternal__829513887 =
+  {
+    category : ?Category__73893264;
+    contentType : ContentType__394818358;
+    date : Text;
+    filename : Text;
+    id : MemoryId__742482266;
+    media : ExternalBlob__246066408;
+    story : ?Text;
+    title : Text;
+    uploadedAt : Time__900049286;
+    uploader : Principal
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Time__796480547 = Int__270357528;
+type Time__900049286 = Time__796480547;
+actor {
+  stable memories :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?MemoryInternal__829513887]];
+      var elementIndex : Nat__490723111
+    };
+  stable memoryIdCounter :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Nat]];
+      var elementIndex : Nat__490723111
+    }
+};

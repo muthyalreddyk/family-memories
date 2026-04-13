@@ -1,0 +1,20 @@
+{
+  "overview": "A family memory sharing app where members can upload photos and videos with stories, browse memories in a beautiful feed, and manage their own contributions — all protected with secure login.",
+  "features": [
+    "Secure login with Internet Identity",
+    "Upload photos and videos with titles, dates, and story text",
+    "Chronological memory feed with card layout",
+    "Full detail view with large media and story",
+    "Edit and delete your own memories",
+    "Responsive design for mobile and desktop"
+  ],
+  "category": "productivity",
+  "tags": [
+    "family",
+    "memories",
+    "photo-sharing",
+    "stories",
+    "scrapbook"
+  ],
+  "last_updated": "2026-04-13T14:42:44.647Z"
+}
