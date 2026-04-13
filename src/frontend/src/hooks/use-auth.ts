@@ -4,10 +4,17 @@ export function useAuth() {
   const { identity, login, clear, loginStatus, isInitializing, isLoggingIn } =
     useInternetIdentity();
 
-  const isAuthenticated = !!identity && loginStatus === "success";
+  // A user is authenticated if they have a valid (non-anonymous) identity.
+  // This covers both:
+  //   1. A returning user whose identity was restored from storage (loginStatus = "idle")
+  //   2. A user who just completed the II login flow (loginStatus = "success")
+  const isAuthenticated = !!identity && !identity.getPrincipal().isAnonymous();
+
   const isLoading = isInitializing || isLoggingIn;
 
-  const principalText = identity?.getPrincipal()?.toText() ?? null;
+  const principalText = isAuthenticated
+    ? (identity?.getPrincipal()?.toText() ?? null)
+    : null;
 
   return {
     identity,
@@ -15,6 +22,7 @@ export function useAuth() {
     isLoading,
     isInitializing,
     isLoggingIn,
+    loginStatus,
     principalText,
     login,
     logout: clear,

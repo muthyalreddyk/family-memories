@@ -16,9 +16,14 @@ import { UploadPage } from "./pages/UploadPage";
 
 function AuthGate({ children }: { children: React.ReactNode }) {
   const { identity, isInitializing } = useInternetIdentity();
-  const isAuthenticated = !!identity;
+  // Only consider authenticated if the identity is non-anonymous.
+  // This correctly handles both fresh logins and restored sessions.
+  const isAuthenticated = !!identity && !identity.getPrincipal().isAnonymous();
 
+  // Wait for the auth client to finish loading stored credentials
+  // before deciding whether to show the login page or the app.
   if (isInitializing) return null;
+
   if (!isAuthenticated)
     return (
       <Layout>
